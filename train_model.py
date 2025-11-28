@@ -32,7 +32,7 @@ def download_framingham_data():
             print(f"Downloading {kaggle_dataset}...")
             api.dataset_download_files(kaggle_dataset, path='data/', unzip=True)
 
-            # Look for the framingham.csv file in the data directory
+            # Look for the framingham_heart_study.csv file in the data directory
             for file in os.listdir('data'):
                 if file.endswith('.csv') and 'framingham' in file.lower():
                     print(f"Dataset downloaded successfully as {file}")
@@ -42,10 +42,10 @@ def download_framingham_data():
             # If the exact filename is different, just look for any csv file
             for file in os.listdir('data'):
                 if file.endswith('.csv'):
-                    # Rename it to framingham.csv if it's not already named that
-                    if file != 'framingham.csv':
-                        os.rename(f'data/{file}', f'data/framingham.csv')
-                    print(f"Dataset found and renamed to framingham.csv")
+                    # Rename it to framingham_heart_study.csv if it's not already named that
+                    if file != 'framingham_heart_study.csv':
+                        os.rename(f'data/{file}', f'data/framingham_heart_study.csv')
+                    print(f"Dataset found and renamed to framingham_heart_study.csv")
                     return True
 
             return False
@@ -74,7 +74,7 @@ def download_framingham_data():
         print("4. Run this script again")
         print("\nAlternatively, download manually from:")
         print("https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study")
-        print("Save as 'data/framingham.csv' in this project's 'data' directory")
+        print("Save as 'data/framingham_heart_study.csv' in this project's 'data' directory")
         return False
 
 def main():

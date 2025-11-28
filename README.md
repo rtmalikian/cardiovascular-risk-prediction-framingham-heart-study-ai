@@ -25,6 +25,39 @@ This project uses the actual Framingham Heart Study dataset (`framingham_heart_s
 
 The dataset contains 4,240 records with 15 features and is already included in this repository.
 
+## Model Performance Analysis
+
+After retraining with the actual Framingham dataset, the model achieved the following results:
+
+### Overall Model Comparison:
+- **Random Forest**: 84.4% accuracy, 0.644 AUC
+- **Logistic Regression**: 85.1% accuracy, 0.702 AUC (best performing)
+- **Gradient Boosting**: 83.7% accuracy, 0.661 AUC
+
+### Key Performance Metrics:
+- **Best Test Accuracy**: 85.14% (Logistic Regression)
+- **Best AUC Score**: 0.702 (Logistic Regression)
+- **Cross-validation Score**: 0.7055 ± 0.0498
+
+### Feature Importance Rankings (Top 10):
+1. Age: 16.55% (highest predictive factor)
+2. Systolic Blood Pressure: 14.87%
+3. Diastolic Blood Pressure: 11.68%
+4. BMI: 11.63%
+5. Total Cholesterol: 11.63%
+6. Glucose: 9.89%
+7. Heart Rate: 8.44%
+8. Cigarettes per Day: 5.45%
+9. Prevalent Hypertension: 3.24%
+10. Education Level: 3.21%
+
+### Data Insights:
+- Training set: 3,392 samples
+- Test set: 848 samples
+- Target distribution: 2,877 (No CHD) vs 515 (CHD) cases
+- Missing values handled: education (105), glucose (388), cigsPerDay (29), and others
+- Outliers detected and managed in multiple features
+
 ## Creator
 
 This project was created by Raphael Tomas Malikian (rtmalikian@gmail.com) with the help of Qwen Code in Visual Studio Code using the "coder-model".

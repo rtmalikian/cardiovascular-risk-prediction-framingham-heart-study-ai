@@ -26,10 +26,45 @@ This project uses the actual Framingham Heart Study dataset, which is publicly a
 - **Physiological measures**: total cholesterol (totChol), systolic blood pressure (sysBP), diastolic blood pressure (diaBP), BMI, heart rate, glucose levels
 - **Target variable**: 10-year risk of coronary heart disease (TenYearCHD)
 
-To use the actual dataset:
-1. Download from [Kaggle](https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study)
-2. Place the `framingham.csv` file in the `data/` directory
-3. Run the training script to build the model with real data
+### Dataset Statistics:
+- **Total Records**: 4,240 samples
+- **Features**: 15 predictor variables
+- **Target Variable**: TenYearCHD (binary: 0 = No, 1 = Yes)
+- **Missing Values**: Handled appropriately in preprocessing
+- **Outliers**: Detected and managed in multiple features
+
+## Model Performance Analysis
+
+After retraining with the actual Framingham dataset, the model achieved the following results:
+
+### Overall Model Comparison:
+- **Random Forest**: 84.4% accuracy, 0.644 AUC
+- **Logistic Regression**: 85.1% accuracy, 0.702 AUC (best performing)
+- **Gradient Boosting**: 83.7% accuracy, 0.661 AUC
+
+### Key Performance Metrics:
+- **Best Test Accuracy**: 85.14% (Logistic Regression)
+- **Best AUC Score**: 0.702 (Logistic Regression)
+- **Cross-validation Score**: 0.7055 ± 0.0498
+
+### Feature Importance Rankings (Top 10):
+1. **Age**: 16.55% (highest predictive factor)
+2. **Systolic Blood Pressure**: 14.87%
+3. **Diastolic Blood Pressure**: 11.68%
+4. **BMI**: 11.63%
+5. **Total Cholesterol**: 11.63%
+6. **Glucose**: 9.89%
+7. **Heart Rate**: 8.44%
+8. **Cigarettes per Day**: 5.45%
+9. **Prevalent Hypertension**: 3.24%
+10. **Education Level**: 3.21%
+
+### Data Insights:
+- Training set: 3,392 samples
+- Test set: 848 samples
+- Target distribution: 2,877 (No CHD) vs 515 (CHD) cases
+- Missing values handled: education (105), glucose (388), cigsPerDay (29), and others
+- Outliers detected and managed in multiple features like cigsPerDay, BPMeds, sysBP, diaBP, BMI, heartRate, and glucose
 
 ## Project Structure
 
@@ -45,7 +80,7 @@ framingham/
 │   ├── data_processing.py  # Data preprocessing functions
 │   └── ml_model.py         # Machine learning model class
 ├── data/                   # Data files
-│   └── framingham.csv      # Framingham dataset (to be downloaded)
+│   └── framingham_heart_study.csv      # Framingham dataset (actual dataset)
 └── models/                 # Trained model files
     ├── cardiovascular_risk_model.pkl  # Trained model
     └── scaler.pkl           # Feature scaler
