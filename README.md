@@ -16,6 +16,18 @@ This project develops a machine learning model to predict cardiovascular event r
 - **Comprehensive Risk Assessment**: Evaluates multiple cardiovascular risk factors including demographics, lifestyle factors, medical history, and physiological measures
 - **Open Source**: Full codebase available for research and clinical applications
 
+## Application Screenshots
+
+The clinical decision support tool features an intuitive, healthcare-focused interface designed for both clinicians and patients:
+
+**Home Screen - Cardiovascular Risk Assessment Dashboard**
+![Home Screen](images/home.png)
+*The main dashboard allows healthcare providers to input patient data including demographics, lifestyle factors, medical history, and physiological measures for instant risk assessment.*
+
+**Results Screen - Risk Interpretation and Clinical Guidance**
+![Results Screen](images/results.png)
+*The results screen provides clear 10-year cardiovascular risk percentage, risk category classification, and evidence-based clinical recommendations for patient care.*
+
 ## Data Source
 
 This project uses the actual Framingham Heart Study dataset (`framingham_heart_study.csv`), the gold standard in cardiovascular research. The open-source dataset contains 4,240 patient records with 15 clinical features for machine learning model development. The dataset includes:
