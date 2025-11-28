@@ -14,22 +14,26 @@ def load_framingham_data(data_path="data/framingham.csv"):
         if not os.path.exists(data_path):
             print(f"Data file not found at {data_path}")
             print("Please ensure the Framingham dataset is available at the specified path.")
+            print("You can download it from: https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study")
             return None
-        
+
         # Load data
         df = pd.read_csv(data_path)
         print(f"Dataset loaded successfully with shape: {df.shape}")
-        
+
         # Display basic information
         print("\nDataset Info:")
         print(df.info())
-        
+
         print("\nFirst few rows:")
         print(df.head())
-        
+
         print("\nMissing values per column:")
         print(df.isnull().sum())
-        
+
+        print("\nColumn names in the dataset:")
+        print(df.columns.tolist())
+
         return df
     except Exception as e:
         print(f"Error loading data: {e}")

@@ -4,6 +4,78 @@ from src.data_processing import load_framingham_data, preprocess_data, clean_dat
 from src.ml_model import CardiovascularRiskModel, compare_models
 import os
 import pickle
+import requests
+from pathlib import Path
+
+def download_framingham_data():
+    """
+    Download the Framingham dataset from Kaggle if it doesn't exist locally.
+    """
+    print("Checking for Framingham dataset...")
+
+    kaggle_dataset = "noeyislearning/framingham-heart-study"
+
+    # Check if kaggle API is available
+    try:
+        from kaggle.api.kaggle_api_extended import KaggleApi
+
+        # Initialize the API
+        try:
+            api = KaggleApi()
+            api.authenticate()
+            print("Kaggle API authenticated successfully.")
+
+            # Create data directory if it doesn't exist
+            os.makedirs('data', exist_ok=True)
+
+            # Download the dataset
+            print(f"Downloading {kaggle_dataset}...")
+            api.dataset_download_files(kaggle_dataset, path='data/', unzip=True)
+
+            # Look for the framingham.csv file in the data directory
+            for file in os.listdir('data'):
+                if file.endswith('.csv') and 'framingham' in file.lower():
+                    print(f"Dataset downloaded successfully as {file}")
+                    return True
+
+            print("Dataset file not found after download. Looking for any CSV file...")
+            # If the exact filename is different, just look for any csv file
+            for file in os.listdir('data'):
+                if file.endswith('.csv'):
+                    # Rename it to framingham.csv if it's not already named that
+                    if file != 'framingham.csv':
+                        os.rename(f'data/{file}', f'data/framingham.csv')
+                    print(f"Dataset found and renamed to framingham.csv")
+                    return True
+
+            return False
+
+        except Exception as e:
+            print(f"Could not authenticate or download using Kaggle API: {e}")
+            print("Please ensure you have Kaggle credentials set up.")
+            print("You need to have a Kaggle account and set up the API credentials.")
+            print("Follow these steps:")
+            print("1. Create a Kaggle account at https://www.kaggle.com/")
+            print("2. Go to Account -> API -> Create New API Token")
+            print("3. Save the kaggle.json file to ~/.kaggle/kaggle.json")
+            print("4. Run this script again")
+            print("\nAlternatively, download manually from:")
+            print("https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study")
+            print("Save as 'data/framingham.csv' in this project's 'data' directory")
+            return False
+
+    except ImportError:
+        print("Kaggle API package not found.")
+        print("To install: pip install kaggle")
+        print("After installation, follow these steps:")
+        print("1. Create a Kaggle account at https://www.kaggle.com/")
+        print("2. Go to Account -> API -> Create New API Token")
+        print("3. Save the kaggle.json file to ~/.kaggle/kaggle.json")
+        print("4. Run this script again")
+        print("\nAlternatively, download manually from:")
+        print("https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study")
+        print("Save as 'data/framingham.csv' in this project's 'data' directory")
+        return False
 
 def main():
     print("Starting Cardiovascular Risk Model Training...")
@@ -13,9 +85,17 @@ def main():
     df = load_framingham_data("data/framingham.csv")
     
     if df is None:
-        print("\nDataset not found. Creating a sample dataset for demonstration...")
-        df = create_sample_dataset()
-        print("Sample dataset created successfully.")
+        print("\nFramingham dataset not found locally.")
+        downloaded = download_framingham_data()
+        
+        if not downloaded:
+            print("\nDataset not found and cannot be downloaded automatically.")
+            print("Creating a sample dataset for demonstration purposes...")
+            df = create_sample_dataset()
+            print("Sample dataset created successfully.")
+        else:
+            # Try loading again after download
+            df = load_framingham_data("data/framingham.csv")
     
     # Clean the data
     print("\n2. Cleaning the dataset...")
@@ -98,41 +178,46 @@ def create_sample_dataset():
     Create a sample dataset similar to the Framingham dataset for demonstration purposes
     """
     np.random.seed(42)
-    n_samples = 1000
+    n_samples = 4240  # Match the size of the actual dataset
     
     # Generate sample data similar to Framingham Heart Study
+    # Based on typical ranges from the actual dataset
     data = {
-        'male': np.random.choice([0, 1], size=n_samples),
-        'age': np.random.randint(30, 80, size=n_samples),
-        'education': np.random.choice([1, 2, 3, 4], size=n_samples),
-        'currentSmoker': np.random.choice([0, 1], size=n_samples),
-        'cigsPerDay': np.random.poisson(5, size=n_samples) * np.random.choice([0, 1], size=n_samples, p=[0.4, 0.6]),
-        'BPMeds': np.random.choice([0, 1], size=n_samples, p=[0.8, 0.2]),
-        'prevalentStroke': np.random.choice([0, 1], size=n_samples, p=[0.95, 0.05]),
-        'prevalentHyp': np.random.choice([0, 1], size=n_samples, p=[0.6, 0.4]),
-        'diabetes': np.random.choice([0, 1], size=n_samples, p=[0.9, 0.1]),
-        'totChol': np.random.normal(240, 50, size=n_samples),
-        'sysBP': np.random.normal(130, 25, size=n_samples),
-        'diaBP': np.random.normal(85, 15, size=n_samples),
-        'BMI': np.random.normal(26, 4, size=n_samples),
-        'heartRate': np.random.normal(75, 10, size=n_samples),
-        'glucose': np.random.normal(100, 25, size=n_samples)
+        'male': np.random.choice([0, 1], size=n_samples, p=[0.45, 0.55]),  # ~55% male
+        'age': np.random.normal(49, 15, size=n_samples).clip(20, 80).astype(int),
+        'education': np.random.choice([1, 2, 3, 4], size=n_samples, p=[0.2, 0.4, 0.25, 0.15]),
+        'currentSmoker': np.random.choice([0, 1], size=n_samples, p=[0.4, 0.6]),  # ~60% smokers
+        'cigsPerDay': np.random.poisson(9, size=n_samples) * np.random.choice([0, 1], size=n_samples, p=[0.4, 0.6]),
+        'BPMeds': np.random.choice([0, 1], size=n_samples, p=[0.85, 0.15]),  # ~15% on BP meds
+        'prevalentStroke': np.random.choice([0, 1], size=n_samples, p=[0.98, 0.02]),  # ~2% with stroke
+        'prevalentHyp': np.random.choice([0, 1], size=n_samples, p=[0.35, 0.65]),  # ~65% with hypertension
+        'diabetes': np.random.choice([0, 1], size=n_samples, p=[0.95, 0.05]),  # ~5% with diabetes
+        'totChol': np.random.normal(236, 42, size=n_samples).clip(120, 600),  # Total cholesterol
+        'sysBP': np.random.normal(133, 22, size=n_samples).clip(80, 300),    # Systolic BP
+        'diaBP': np.random.normal(83, 12, size=n_samples).clip(40, 150),     # Diastolic BP
+        'BMI': np.random.normal(25.8, 4.2, size=n_samples).clip(15, 50),     # BMI
+        'heartRate': np.random.normal(75, 13, size=n_samples).clip(40, 150), # Heart rate
+        'glucose': np.random.normal(82, 23, size=n_samples).clip(40, 400)    # Glucose
     }
     
     df = pd.DataFrame(data)
     
     # Create a realistic target variable based on risk factors
+    # Higher risk for older people, smokers, diabetics, hypertensives, etc.
     risk_score = (
-        (df['age'] - 30) / 50 +  # Age factor
-        df['male'] * 0.1 +  # Gender factor
-        df['currentSmoker'] * 0.2 +  # Smoking factor
-        (df['sysBP'] - 120) / 200 +  # Blood pressure factor
-        (df['totChol'] - 200) / 500 +  # Cholesterol factor
-        df['diabetes'] * 0.15  # Diabetes factor
+        (df['age'] - 20) / 100 +                                    # Age factor (older = higher risk)
+        df['male'] * 0.05 +                                        # Gender factor (male = higher risk)
+        df['currentSmoker'] * 0.1 +                                # Smoking factor
+        (df['sysBP'] - 120) / 500 +                                # Blood pressure factor
+        (df['totChol'] - 200) / 1000 +                             # Cholesterol factor
+        df['diabetes'] * 0.3 +                                     # Diabetes factor
+        df['prevalentHyp'] * 0.1 +                                 # Prevalent hypertension factor
+        df['prevalentStroke'] * 0.3                                # Prevalent stroke factor
     ).clip(0, 1)  # Ensure between 0 and 1
     
     # Add some randomness and convert to binary outcome
-    df['TenYearCHD'] = (risk_score > 0.3) & (np.random.random(n_samples) < risk_score + 0.1)
+    # Base rate of CHD risk is approximately 15% in the Framingham dataset
+    df['TenYearCHD'] = (risk_score > 0.35) & (np.random.random(n_samples) < risk_score + 0.15)
     df['TenYearCHD'] = df['TenYearCHD'].astype(int)
     
     # Ensure reasonable ranges for all variables

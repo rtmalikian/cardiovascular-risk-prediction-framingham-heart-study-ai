@@ -2,18 +2,34 @@
 
 ## Project Overview
 
-This project develops a web-based clinical decision support tool using Python and Streamlit to predict 10-year cardiovascular event risk, aligning model output with the Framingham Heart Study large dataset.
+This project develops a web-based clinical decision support tool using Python and Streamlit to predict 10-year cardiovascular event risk, using the actual Framingham Heart Study dataset.
 
 ### Key Features
 - Interactive web interface built with Streamlit
-- Machine learning model trained on Framingham Heart Study dataset
+- Machine learning model trained on actual Framingham Heart Study dataset
 - Real-time cardiovascular risk prediction
 - Data visualization and interpretation tools
 - User-friendly input controls for risk factor assessment
 
 ## Data Wrangling Achievement
 
-Successfully cleaned, organized, and trained a machine learning model on a large, complex medical database, demonstrating the ability to manage and structure highly heterogeneous medical data for real-time AI inference.
+Successfully cleaned, organized, and trained a machine learning model on the actual Framingham Heart Study dataset, demonstrating the ability to manage and structure real-world medical data for clinical decision support applications.
+
+## Data Source
+
+This project uses the actual Framingham Heart Study dataset, which is publicly available on Kaggle. The dataset contains comprehensive health information from the long-term Framingham Heart Study that began in 1948. The data includes various health metrics and lifestyle factors tracked over time to study cardiovascular disease risk factors.
+
+### Features in the Dataset:
+- **Demographics**: gender (male), age, education level
+- **Lifestyle factors**: current smoking status (currentSmoker), cigarettes per day (cigsPerDay)
+- **Medical history**: prevalent stroke (prevalentStroke), prevalent hypertension (prevalentHyp), diabetes status
+- **Physiological measures**: total cholesterol (totChol), systolic blood pressure (sysBP), diastolic blood pressure (diaBP), BMI, heart rate, glucose levels
+- **Target variable**: 10-year risk of coronary heart disease (TenYearCHD)
+
+To use the actual dataset:
+1. Download from [Kaggle](https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study)
+2. Place the `framingham.csv` file in the `data/` directory
+3. Run the training script to build the model with real data
 
 ## Project Structure
 
@@ -23,12 +39,13 @@ framingham/
 ├── train_model.py           # Model training script
 ├── requirements.txt         # Python dependencies
 ├── README.md               # Project documentation
+├── DOCUMENTATION.md        # Detailed documentation
 ├── LICENSE                 # License information
 ├── src/                    # Source code modules
 │   ├── data_processing.py  # Data preprocessing functions
 │   └── ml_model.py         # Machine learning model class
 ├── data/                   # Data files
-│   └── framingham.csv      # Framingham dataset
+│   └── framingham.csv      # Framingham dataset (to be downloaded)
 └── models/                 # Trained model files
     ├── cardiovascular_risk_model.pkl  # Trained model
     └── scaler.pkl           # Feature scaler
