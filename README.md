@@ -16,17 +16,18 @@ This project develops a machine learning model to predict cardiovascular event r
 
 ## Data Source
 
-This project uses the actual Framingham Heart Study dataset, which is publicly available. The dataset contains the following features:
+This project uses the actual Framingham Heart Study dataset (`framingham_heart_study.csv`), which is publicly available. The dataset contains the following features:
 - **Demographics**: gender, age, education
 - **Lifestyle factors**: current smoking status, cigarettes per day
 - **Medical history**: prevalent stroke, prevalent hypertension, diabetes
 - **Physiological measures**: total cholesterol, systolic/diastolic blood pressure, BMI, heart rate, glucose
 - **Target variable**: 10-year risk of coronary heart disease (TenYearCHD)
 
-To use the actual dataset:
-1. Download from [Kaggle](https://www.kaggle.com/datasets/noeyislearning/framingham-heart-study)
-2. Place the `framingham.csv` file in the `data/` directory
-3. Run the training script to build the model with real data
+The dataset contains 4,240 records with 15 features and is already included in this repository.
+
+## Creator
+
+This project was created by Raphael Tomas Malikian (rtmalikian@gmail.com) with the help of Qwen Code in Visual Studio Code using the "coder-model".
 
 ## Data Wrangling Achievement
 

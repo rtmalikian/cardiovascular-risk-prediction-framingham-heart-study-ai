@@ -82,12 +82,12 @@ def main():
     
     # Load the dataset
     print("\n1. Loading Framingham dataset...")
-    df = load_framingham_data("data/framingham.csv")
-    
+    df = load_framingham_data("data/framingham_heart_study.csv")
+
     if df is None:
         print("\nFramingham dataset not found locally.")
         downloaded = download_framingham_data()
-        
+
         if not downloaded:
             print("\nDataset not found and cannot be downloaded automatically.")
             print("Creating a sample dataset for demonstration purposes...")
@@ -95,7 +95,7 @@ def main():
             print("Sample dataset created successfully.")
         else:
             # Try loading again after download
-            df = load_framingham_data("data/framingham.csv")
+            df = load_framingham_data("data/framingham_heart_study.csv")
     
     # Clean the data
     print("\n2. Cleaning the dataset...")

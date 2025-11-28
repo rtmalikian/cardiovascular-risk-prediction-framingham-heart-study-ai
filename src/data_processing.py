@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 import os
 
-def load_framingham_data(data_path="data/framingham.csv"):
+def load_framingham_data(data_path="data/framingham_heart_study.csv"):
     """
     Load the Framingham dataset and perform initial data exploration
     """
