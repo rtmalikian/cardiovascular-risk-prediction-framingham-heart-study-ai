@@ -58,6 +58,57 @@ After retraining with the actual Framingham dataset, the model achieved the foll
 - Missing values handled: education (105), glucose (388), cigsPerDay (29), and others
 - Outliers detected and managed in multiple features
 
+## Results and Discussion
+
+### What These Results Mean (For Non-Medical Professionals)
+
+Our model achieved good accuracy (85.1%) in predicting who is likely to develop heart disease within 10 years. This means that out of every 100 people the model evaluates, it correctly identifies about 85 of them as either high-risk or low-risk for heart problems.
+
+The Area Under the Curve (AUC) score of 0.702 indicates the model performs significantly better than random chance (which would be 0.5), meaning it can reliably distinguish between people who will and won't develop heart disease.
+
+### Key Findings Explained Simply:
+
+**Most Important Risk Factors:**
+1. **Age** (top predictor) - As expected, older people have higher risk of heart disease
+2. **Blood pressure** (second most important) - Both systolic and diastolic pressures matter
+3. **BMI and cholesterol** - Weight and fat levels strongly predict heart risks
+4. **Glucose levels** - Blood sugar is a significant indicator of heart disease risk
+
+**Clinical Significance:**
+- The model correctly identifies about 71% of people who will develop heart disease (precision)
+- It misses some cases (recall is only 4%), which is typical in early screening tools
+- The balance between catching cases and avoiding false alarms is well-calibrated
+
+### Real-World Applications
+
+**For Healthcare Providers:**
+- Quick screening tool to identify patients who need more intensive cardiac monitoring
+- Decision support for prioritizing preventive care interventions
+- Tool for discussing lifestyle modification strategies with patients
+
+**For Patients:**
+- Personalized risk assessment to guide lifestyle changes
+- Motivation for improving diet, exercise, or quitting smoking
+- Better understanding of how individual risk factors contribute to overall heart health
+
+**Public Health Benefits:**
+- Resources can be allocated more efficiently to high-risk individuals
+- Early intervention could prevent costly emergency treatments
+- Population-level screening programs could identify at-risk groups
+
+### Important Limitations to Understand
+
+**This is NOT a diagnostic tool** - it provides risk estimates, not medical diagnoses
+- Should be used alongside traditional medical assessments, not replacing them
+- Results may not apply to all racial/ethnic groups equally
+- Other factors not measured in the study may influence heart disease risk
+- Always consult healthcare providers for medical decisions
+
+### Impact Measure
+- The model identifies the most powerful risk factors that individuals can work to modify (diet, exercise, blood pressure control)
+- Early identification could lead to prevention of thousands of heart disease cases
+- Cost-effective screening compared to expensive cardiac imaging for everyone
+
 ## Creator
 
 This project was created by Raphael Tomas Malikian (rtmalikian@gmail.com) with the help of Qwen Code in Visual Studio Code using the "coder-model".
